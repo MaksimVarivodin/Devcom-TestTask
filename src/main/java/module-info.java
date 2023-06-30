@@ -3,7 +3,8 @@ module test_task.devcom_test_task {
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
+    requires java.desktop;
 
-    opens test_task.devcom_test_task to javafx.fxml;
-    exports test_task.devcom_test_task;
+    opens test_task.form to javafx.fxml;
+    exports test_task.form;
 }
