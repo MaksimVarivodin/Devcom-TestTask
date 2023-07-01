@@ -24,7 +24,7 @@ public class PuzzleSolver {
         this.usedPieces = new boolean[puzzleHeight][puzzleWidth];
     }
 
-    public boolean solvePuzzle(String imagePath) {
+    public boolean solvePuzzle(String imagePath)             {
         try {
             BufferedImage fullImage = ImageIO.read(new File(imagePath));
             splitImageIntoPieces(fullImage);
