@@ -1,9 +1,9 @@
 package tempPackage;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,6 @@ public class PuzzleSolver {
         try {
             BufferedImage fullImage = ImageIO.read(new File(imagePath));
             splitImageIntoPieces(fullImage);
-
             return backtrack(0, 0);
         } catch (IOException e) {
             e.printStackTrace();

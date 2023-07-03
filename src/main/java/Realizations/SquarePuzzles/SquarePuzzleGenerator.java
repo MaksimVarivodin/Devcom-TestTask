@@ -1,13 +1,17 @@
 package Realizations.SquarePuzzles;
 
-import Realizations.RectanglePuzzles.RectanglePuzzleGenerator;
+import Interfaces.PuzzleGeneratorI;
+import Interfaces.PuzzleI;
 import Interfaces.PuzzlePieceI;
+import Realizations.ArrayRandomizer;
 import Realizations.ImageCutter;
+import Realizations.RectanglePuzzles.RectanglePiecePuzzle;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class SquarePuzzleGenerator extends RectanglePuzzleGenerator {
-    @Override
+public class SquarePuzzleGenerator implements PuzzleGeneratorI {
+
     public PuzzlePieceI[] generatePieceArray(BufferedImage image, int rows, int columns) throws IOException {
         BufferedImage[] array = ImageCutter.cutImage(image, rows, columns);
         PuzzlePieceI [] result = new SquarePiece[array.length];
@@ -24,5 +28,13 @@ public class SquarePuzzleGenerator extends RectanglePuzzleGenerator {
             }
         }
         return result;
+    }
+
+    public PuzzleI generatePuzzle(BufferedImage image, int rows, int columns) throws IOException {
+        PuzzlePieceI [] pieces = generatePieceArray(image, rows, columns);
+        ArrayRandomizer randomizer = new ArrayRandomizer(pieces);
+        pieces = randomizer.randomize();
+        PuzzleI puzzle = new RectanglePiecePuzzle(pieces, columns, rows);
+        return puzzle;
     }
 }

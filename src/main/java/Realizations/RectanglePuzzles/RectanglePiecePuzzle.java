@@ -3,35 +3,50 @@ package Realizations.RectanglePuzzles;
 import Interfaces.PuzzleI;
 import Interfaces.PuzzlePieceI;
 import Realizations.FileNameGenerator;
+import Realizations.PuzzleFileLinks;
+import Realizations.Serializer;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RectanglePiecePuzzle implements PuzzleI {
     PuzzlePieceI[] pieces;
-    int width;
-    int height;
+    int columns;
+    int rows;
+
+    int currentPieceX;
+    int currentPieceY;
 
     public RectanglePiecePuzzle(PuzzlePieceI[] pieces, int cols, int rows) {
         this.pieces = pieces;
-        this.width = cols;
-        this.height = rows;
+        this.columns = cols;
+        this.rows = rows;
+        this.currentPieceX = 0;
+        this.currentPieceY = 0;
     }
-
+    public void setCurrent(int currentPieceX, int currentPieceY){
+        this.currentPieceX = currentPieceX;
+        this.currentPieceY = currentPieceY;
+    }
     /**
      * Swaps selected puzzle piece with left piece,
      * if selected is not on left edge of a puzzle.
      *
-     * @param xCoordinate is the row
-     * @param yCoordinate is the column
      */
     @Override
-    public void moveLeft(int xCoordinate, int yCoordinate) {
-        if (xCoordinate >= 1 && xCoordinate < width && yCoordinate >= 0 && yCoordinate < height){
-            PuzzlePieceI buffer  = new RectanglePiece(pieces[yCoordinate * width + xCoordinate - 1]);
-            pieces[yCoordinate * width + xCoordinate - 1] = pieces[yCoordinate * width + xCoordinate];
-            pieces[yCoordinate * width + xCoordinate] = buffer;
+    public void moveLeft() {
+        if (currentPieceX >= 1 && currentPieceX < columns && currentPieceY >= 0 && currentPieceY < rows){
+            PuzzlePieceI buffer  = new RectanglePiece(pieces[currentPieceY * columns + currentPieceX - 1]);
+            pieces[currentPieceY * columns + currentPieceX - 1] = pieces[currentPieceY * columns + currentPieceX];
+            pieces[currentPieceY * columns + currentPieceX] = buffer;
         }
     }
 
@@ -39,15 +54,13 @@ public class RectanglePiecePuzzle implements PuzzleI {
      * Swaps selected puzzle piece with right piece,
      * if selected is not on right edge of a puzzle.
      *
-     * @param xCoordinate is the row
-     * @param yCoordinate is the column
      */
     @Override
-    public void moveRight(int xCoordinate, int yCoordinate) {
-        if (xCoordinate >= 0 && xCoordinate < width-1 && yCoordinate >= 0 && yCoordinate < height){
-            PuzzlePieceI buffer  = pieces[yCoordinate * width + xCoordinate + 1];
-            pieces[yCoordinate * width + xCoordinate + 1] = pieces[yCoordinate * width + xCoordinate];
-            pieces[yCoordinate * width + xCoordinate] = buffer;
+    public void moveRight() {
+        if (currentPieceX >= 0 && currentPieceX < columns -1 && currentPieceY >= 0 && currentPieceY < rows){
+            PuzzlePieceI buffer  = pieces[currentPieceY * columns + currentPieceX + 1];
+            pieces[currentPieceY * columns + currentPieceX + 1] = pieces[currentPieceY * columns + currentPieceX];
+            pieces[currentPieceY * columns + currentPieceX] = buffer;
         }
     }
 
@@ -55,15 +68,13 @@ public class RectanglePiecePuzzle implements PuzzleI {
      * Swaps selected puzzle piece with top piece,
      * if selected is not on top edge of a puzzle.
      *
-     * @param xCoordinate is the row
-     * @param yCoordinate is the column
      */
     @Override
-    public void moveUp(int xCoordinate, int yCoordinate) {
-        if (xCoordinate >= 0 && xCoordinate < width && yCoordinate >= 1 && yCoordinate < height){
-            PuzzlePieceI buffer  = pieces[(yCoordinate -1) * width + xCoordinate];
-            pieces[(yCoordinate - 1) * width + xCoordinate] = pieces[yCoordinate * width + xCoordinate];
-            pieces[yCoordinate * width + xCoordinate] = buffer;
+    public void moveUp() {
+        if (currentPieceX >= 0 && currentPieceX < columns && currentPieceY >= 1 && currentPieceY < rows){
+            PuzzlePieceI buffer  = pieces[(currentPieceY -1) * columns + currentPieceX];
+            pieces[(currentPieceY - 1) * columns + currentPieceX] = pieces[currentPieceY * columns + currentPieceX];
+            pieces[currentPieceY * columns + currentPieceX] = buffer;
         }
     }
 
@@ -71,15 +82,13 @@ public class RectanglePiecePuzzle implements PuzzleI {
      * Swaps selected puzzle piece with bottom piece,
      * if selected is not on bottom edge of a puzzle.
      *
-     * @param xCoordinate is the row
-     * @param yCoordinate is the column
      */
     @Override
-    public void moveDown(int xCoordinate, int yCoordinate) {
-        if (xCoordinate >= 0 && xCoordinate < width && yCoordinate >= 0 && yCoordinate < height -1){
-            PuzzlePieceI buffer  = pieces[(yCoordinate +1) * width + xCoordinate];
-            pieces[(yCoordinate + 1) * width + xCoordinate] = pieces[yCoordinate * width + xCoordinate];
-            pieces[yCoordinate * width + xCoordinate] = buffer;
+    public void moveDown() {
+        if (currentPieceX >= 0 && currentPieceX < columns && currentPieceY >= 0 && currentPieceY < rows -1){
+            PuzzlePieceI buffer  = pieces[(currentPieceY +1) * columns + currentPieceX];
+            pieces[(currentPieceY + 1) * columns + currentPieceX] = pieces[currentPieceY * columns + currentPieceX];
+            pieces[currentPieceY * columns + currentPieceX] = buffer;
         }
     }
 
@@ -91,34 +100,93 @@ public class RectanglePiecePuzzle implements PuzzleI {
      * @param puzzleName is the name of directory where puzzle will be saved
      */
     @Override
-    public void save(String format, String path, String puzzleName) throws IOException {
-        File puzzleDir = new File(path +"/"+  puzzleName);
+    public void savePuzzle(String format, String path, String puzzleName) throws IOException {
+        File puzzleDir = new File(path +"/"+  puzzleName + "/images" );
         puzzleDir.mkdirs();
+        List<String> fileNames = new ArrayList<>();
         for (PuzzlePieceI piece : pieces) {
             String fileName = FileNameGenerator.generateFileName(16);
-            ImageIO.write(piece.getImage(), format, new File(puzzleDir.getPath() + "/" + fileName + "." + format));
+            fileNames.add(fileName);
+            File imageFile = new File(puzzleDir.getPath() + "/" + fileName + "." + format);
+            ImageIO.write(piece.getImage(), format, imageFile);
+
         }
+        String data = Serializer.Serialize(new PuzzleFileLinks(fileNames, columns, rows));
+        File puzzleFile = new File(path + "/" + puzzleName +"/" + puzzleName + ".puzzle");
+        try(PrintWriter writer = new PrintWriter(puzzleFile)){
+            writer.println(data);
+        }
+    }
+
+    /**
+     * Opens puzzle from path -> path/puzzleName
+     * Also tries to get all images signed in .puzzle file
+     *
+     * @param path       is the dir where are the pictures and .puzzle file
+     * @param puzzleName is the name of the file with the links to images on puzzle(their location on the grid), also it must have extension ".puzzle"
+     */
+    @Override
+    public void openPuzzle(String path, String puzzleName) throws IOException, ClassNotFoundException {
+        String data = new String(Files.readAllBytes(Paths.get(path + "/"+ puzzleName)));
+
+        if (!FilenameUtils.getExtension(puzzleName).equals("puzzle")){
+            throw new IOException("Not a .puzzle file");
+        }
+        PuzzleFileLinks links = Serializer.Deserialize(data);
+        if (links.getFileNames().size() != links.getCols() * links.getRows()) {
+            throw new IOException("Wrong puzzle file");
+        }
+        PuzzlePieceI[] pieces = new PuzzlePieceI[links.getFileNames().size()];
+        int i = 0;
+        for (String fileName : links.getFileNames()) {
+            BufferedImage img = ImageIO.read(new File(fileName));
+            pieces[i] = new RectanglePiece(img);
+            i++;
+        }
+        this.columns = links.getCols();
+        this.rows = links.getRows();
+        this.pieces = pieces;
     }
 
     /**
      * Rotates selected puzzle piece anticlockwise.
      *
-     * @param xCoordinate is the row
-     * @param yCoordinate is the column
      */
     @Override
-    public void rotateLeft(int xCoordinate, int yCoordinate) {
-        pieces[yCoordinate * width + xCoordinate].rotateLeft();
+    public void rotateLeft() {
+        pieces[currentPieceY * columns + currentPieceX].rotateLeft();
     }
 
     /**
      * Rotates selected puzzle piece clockwise.
      *
-     * @param xCoordinate is the row
-     * @param yCoordinate is the column
      */
     @Override
-    public void rotateRight(int xCoordinate, int yCoordinate) {
-        pieces[yCoordinate * width + xCoordinate].rotateRight();
+    public void rotateRight() {
+        pieces[currentPieceY * columns + currentPieceX].rotateRight();
+    }
+
+    /**
+     * Returns array of PuzzlePieces
+     */
+    @Override
+    public PuzzlePieceI[] getPuzzlePieces() {
+        return this.pieces;
+    }
+
+    /**
+     * @return number of columns
+     */
+    @Override
+    public int getColumns() {
+        return  this.columns;
+    }
+
+    /**
+     * @return number of rows
+     */
+    @Override
+    public int getRows() {
+        return this.rows;
     }
 }

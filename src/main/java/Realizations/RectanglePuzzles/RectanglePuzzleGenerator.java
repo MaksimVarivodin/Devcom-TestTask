@@ -6,16 +6,13 @@ import Interfaces.PuzzlePieceI;
 import Realizations.ArrayRandomizer;
 import Realizations.ImageCutter;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
 public class RectanglePuzzleGenerator implements PuzzleGeneratorI {
     /**
      * Cuts image into pieces. Height and width of pieces are determined by rows and columns.
-     *
+
      * @param image   image to cut
      * @param rows     number of rows
      * @param columns  number of columns

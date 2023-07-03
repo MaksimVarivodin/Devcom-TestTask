@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="test_task.form.Controller">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu fx:id="file_id" mnemonicParsing="false" style="-fx-text-fill: white;" text="Puzzle">
+                  <items>
+                        <MenuItem mnemonicParsing="false" text="Save as..." />
+                    <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Open Puzzle" />
+                        <MenuItem mnemonicParsing="false" text="Open Image..." />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Tips">
+                  <items>
+                        <MenuItem mnemonicParsing="false" text="Puzzle Piece Movement" />
+                        <MenuItem mnemonicParsing="false" text="Rotation" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="About">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Author" />
+                        <MenuItem mnemonicParsing="false" text="Donate..." />
+                    </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <bottom>
+            <VBox prefHeight="26.0" prefWidth="590.0" BorderPane.alignment="CENTER">
+               <children>
+                  <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="123.0" text="Rotation">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Left" />
+                      <MenuItem mnemonicParsing="false" text="Right" />
+                    </items>
+                     <VBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                  </MenuButton>
+               </children>
+            </VBox>
+         </bottom>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -4,6 +4,7 @@ module test_task.devcom_test_task {
 
     requires org.controlsfx.controls;
     requires java.desktop;
+    requires org.apache.commons.io;
 
     opens test_task.form to javafx.fxml;
     exports test_task.form;
