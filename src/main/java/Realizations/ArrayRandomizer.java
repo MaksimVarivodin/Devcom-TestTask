@@ -11,23 +11,22 @@ public class ArrayRandomizer<valuesType extends PuzzlePieceI> {
 
     public valuesType[] randomize() {
         int[] indexes = new int[array.length];
-        valuesType[] newArray =(valuesType[]) new Object[array.length];
+        valuesType[] newArray = (valuesType[]) new PuzzlePieceI[array.length];
         int size = array.length;
         for (int i = 0; i < array.length; i++)
             indexes[i] = i;
         for (int iter = 0; iter < array.length; iter++) {
-            int random = (int) (Math.random() * size);
-            int index_value = -1;
-            int j=0 ;
-            int i = 0;
-            for(;   j   <   random  && i< size; i++)    {
-                if (indexes[i]!= -1){
-                    index_value = indexes[i];
+            int random = (int) (Math.random() * (size));
+            int j = 0;
+            int i = 1;
+            while(i< indexes.length &&(j < random || indexes[i - 1] == -1)){
+                if (indexes[i -1] != -1)
                     j++;
-                }
+                i++;
             }
-            indexes[i] = -1;
-            newArray[index_value] = array[iter];
+
+            newArray[indexes[i -1]] = array[iter];
+            indexes[i -1] = -1;
             size--;
         }
         return newArray;

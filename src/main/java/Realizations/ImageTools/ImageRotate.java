@@ -1,9 +1,9 @@
-package Realizations;
+package Realizations.ImageTools;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class RotateImage {
+public class ImageRotate {
     public static BufferedImage rotate(BufferedImage image, int degrees) {
         int width = image.getWidth();
         int height = image.getHeight();

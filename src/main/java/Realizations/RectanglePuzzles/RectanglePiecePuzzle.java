@@ -174,6 +174,7 @@ public class RectanglePiecePuzzle implements PuzzleI {
         return this.pieces;
     }
 
+
     /**
      * @return number of columns
      */

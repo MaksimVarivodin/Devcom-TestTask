@@ -1,13 +1,14 @@
 package Realizations.PuzzleSolver;
-
 import Interfaces.PuzzleI;
-
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.CvType;
+import org.opencv.core.Scalar;
 public class PuzzleSolver {
-    PuzzleI puzzle;
+    static{ System.loadLibrary(Core.NATIVE_LIBRARY_NAME);}
 
-    public PuzzleSolver(PuzzleI puzzle) {
-        this.puzzle = puzzle;
+    public PuzzleSolver(PuzzleI puzzle, int [][] imageGrid){
+
+
     }
-
-
 }

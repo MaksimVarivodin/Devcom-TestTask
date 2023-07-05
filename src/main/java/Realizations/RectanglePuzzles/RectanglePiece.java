@@ -1,8 +1,7 @@
 package Realizations.RectanglePuzzles;
 
-import Interfaces.EdgeI;
 import Interfaces.PuzzlePieceI;
-import Realizations.RotateImage;
+import Realizations.ImageTools.ImageRotate;
 
 import java.awt.image.BufferedImage;
 
@@ -23,7 +22,7 @@ public class RectanglePiece implements PuzzlePieceI {
      */
     @Override
     public void rotateLeft() {
-        piece = RotateImage.rotate(piece, -180);
+        piece = ImageRotate.rotate(piece, -180);
 
     }
 
@@ -33,13 +32,8 @@ public class RectanglePiece implements PuzzlePieceI {
     @Override
     public void rotateRight() {
         if (piece.getWidth() == piece.getHeight()) {
-            piece = RotateImage.rotate(piece, 180);
+            piece = ImageRotate.rotate(piece, 180);
         }
-    }
-
-    @Override
-    public EdgeI[] getEdges() {
-        return new EdgeI[0];
     }
 
     /**

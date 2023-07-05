@@ -2,7 +2,7 @@ package Realizations.SquarePuzzles;
 
 import Interfaces.PuzzlePieceI;
 import Realizations.RectanglePuzzles.RectanglePiece;
-import Realizations.RotateImage;
+import Realizations.ImageTools.ImageRotate;
 
 import java.awt.image.BufferedImage;
 
@@ -18,7 +18,7 @@ public class SquarePiece extends RectanglePiece implements PuzzlePieceI  {
     @Override
     public void rotateLeft() {
         if (piece.getWidth() == piece.getHeight()){
-            piece = RotateImage.rotate(piece, -90);
+            piece = ImageRotate.rotate(piece, -90);
         }
     }
 
@@ -28,7 +28,7 @@ public class SquarePiece extends RectanglePiece implements PuzzlePieceI  {
     @Override
     public void rotateRight() {
         if (piece.getWidth() == piece.getHeight()){
-            piece = RotateImage.rotate(piece, 90);
+            piece = ImageRotate.rotate(piece, 90);
         }
     }
 
