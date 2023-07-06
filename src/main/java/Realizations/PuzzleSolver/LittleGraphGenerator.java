@@ -3,7 +3,6 @@ package Realizations.PuzzleSolver;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
-import org.opencv.core.MatOfPoint2f;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -14,14 +13,14 @@ import java.util.List;
  * In our case, as distances we use difference between contours of pieces.
  * The smaller the value is, the more similar the picture contours are.
  * */
-public class LittleMatrixGenerator {
+public class LittleGraphGenerator {
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    public static double[][] generateMatrix(Mat[] matPieces) {
-        double[][] matrix = new double[matPieces.length][matPieces.length];
+    public static Double[][] generateGraph(Mat[] matPieces) {
+        Double[][] matrix = new Double[matPieces.length][matPieces.length];
         matPieces = prepareForContourSearch(matPieces);
         ArrayList<List<MatOfPoint>> contourList = new ArrayList<>();
         for (Mat piece:
@@ -37,8 +36,6 @@ public class LittleMatrixGenerator {
                     matrix[j][i] = matrix[i][j];
                 }
         }
-
-
         return matrix;
     }
     static private Mat[] prepareForContourSearch(Mat[] matPieces){
@@ -55,12 +52,12 @@ public class LittleMatrixGenerator {
         Imgproc.findContours(piece, contour, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         return contour;
     }
-    static private double findMinDifference(List<MatOfPoint> contours1, List<MatOfPoint> contours2) {
+    static private Double findMinDifference(List<MatOfPoint> contours1, List<MatOfPoint> contours2) {
         // Compare contours
-        double minDifference = Double.MAX_VALUE;
+        Double minDifference = Double.MAX_VALUE;
         for (MatOfPoint contour1 : contours1)
             for (MatOfPoint contour2 : contours2) {
-                double difference = Imgproc.matchShapes(contour1, contour2, Imgproc.CV_CONTOURS_MATCH_I1, 0);
+                Double difference = Imgproc.matchShapes(contour1, contour2, Imgproc.CV_CONTOURS_MATCH_I1, 0);
                 if (difference < minDifference)
                     minDifference = difference;
             }
