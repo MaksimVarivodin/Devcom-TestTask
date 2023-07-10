@@ -7,8 +7,11 @@ import org.opencv.core.Scalar;
 public class PuzzleSolver {
     static{ System.loadLibrary(Core.NATIVE_LIBRARY_NAME);}
 
-    public PuzzleSolver(PuzzleI puzzle, GraphEdge[] edges){
+    public PuzzleSolver(PuzzleI puzzle, Integer [] path){
 
 
+    }
+    public PuzzleI solve(){
+        return null;
     }
 }

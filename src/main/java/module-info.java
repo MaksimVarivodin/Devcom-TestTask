@@ -6,6 +6,7 @@ module test_task.devcom_test_task {
     requires java.desktop;
     requires org.apache.commons.io;
     requires opencv;
+    requires javafx.swing;
 
     opens test_task.form to javafx.fxml;
     exports test_task.form;

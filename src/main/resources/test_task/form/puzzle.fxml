@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="test_task.form.Controller">
+<AnchorPane fx:id="id_main_pane" prefHeight="425.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="test_task.form.Controller">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -23,6 +29,13 @@
                         <MenuItem mnemonicParsing="false" text="Open Image..." />
                   </items>
                 </Menu>
+                  <Menu fx:id="themes" mnemonicParsing="false" text="Themes">
+                     <items>
+                        <RadioMenuItem mnemonicParsing="false" onAction="#applyLightTheme" selected="true" text="Light Theme" />
+                        <RadioMenuItem mnemonicParsing="false" onAction="#applyDarkTheme" text="Dark Theme" />
+                        <RadioMenuItem mnemonicParsing="false" onAction="#applyBlackTheme" text="Black Theme" />
+                     </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Tips">
                   <items>
                         <MenuItem mnemonicParsing="false" text="Puzzle Piece Movement" />
@@ -41,20 +54,58 @@
          <bottom>
             <VBox prefHeight="26.0" prefWidth="590.0" BorderPane.alignment="CENTER">
                <children>
-                  <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="123.0" text="Rotation">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Left" />
-                      <MenuItem mnemonicParsing="false" text="Right" />
-                    </items>
-                     <VBox.margin>
-                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                     </VBox.margin>
-                  </MenuButton>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                         <Button mnemonicParsing="false">
+                           <graphic>
+                              <ImageView fitHeight="35.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/rotateLeftArrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
+                           </HBox.margin></Button>
+                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="54.0">
+                           <graphic>
+                              <ImageView fitHeight="35.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/rotateRightArrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Label prefHeight="25.0" prefWidth="52.0" text="Columns:" textFill="WHITE">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Slider blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="4.0" minorTickCount="1" prefHeight="38.0" prefWidth="164.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Label prefHeight="25.0" prefWidth="43.0" text="Rows:" textFill="WHITE">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Slider blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="4.0" minorTickCount="1" prefHeight="38.0" prefWidth="164.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
+                           </HBox.margin>
+                        </Slider>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </bottom>
          <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <AnchorPane fx:id="id_canvas" prefHeight="337.0" prefWidth="469.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

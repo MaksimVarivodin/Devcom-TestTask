@@ -1,0 +1,211 @@
+.root {
+    -fx-background-color: black;
+    -fx-body-color : black;
+    -fx-outer-border : grey;
+}
+*{
+    -fx-text-fill: WHITE    ;
+}
+.button,.menu-button{
+    -fx-font-size: 14;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-pref-height: 30;
+
+}
+.button,.menu-button {
+    -fx-background-insets: 0, 0, -1, 0;
+}
+
+.lg {
+    -fx-min-height: 46;
+    -fx-max-height: 46;
+    -fx-font-size: 18;
+}
+
+.sm {
+    -fx-min-height: 30;
+    -fx-max-height: 30;
+}
+
+.xs {
+    -fx-min-height: 22;
+    -fx-max-height: 22;
+    -fx-font-size: 10;
+}
+
+
+
+
+
+/*positions*/
+/*first*/
+.button.first, .menu-button.first {
+    -fx-border-radius: 4 0 0 4;
+    -fx-background-radius: 4 0 0 4;
+}
+
+.split-menu-button.first > .arrow-button, .split-menu-button.middle > .arrow-button {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+VBox > .button.first,
+VBox > .menu-button.first,
+VBox > .toggle-button.first,
+VBox > .split-menu-button.first,
+VBox > .text-field.first,
+VBox > .text-area.first {
+    -fx-border-radius: 4 4 0 0;
+    -fx-background-radius: 4 4 0 0;
+}
+
+VBox > .split-menu-button.first > .label {
+    -fx-border-radius: 4 0 0 0;
+    -fx-background-radius: 3 0 0 0;
+}
+VBox > .split-menu-button.first > .arrow-button {
+    -fx-border-radius: 0 4 0 0;
+    -fx-background-radius: 0 3 0 0;
+}
+/*middle*/
+.middle {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+
+.button.middle, .text-field.middle, .text-area.middle, .split-menu-button.middle, .toggle-button.middle {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+.button.last, .text-field.last, .text-area.last, .split-menu-button.last, .toggle-button.last, .menu-button.last {
+    -fx-border-radius: 0 4 4 0;
+    -fx-background-radius: 0 4 4 0;
+}
+VBox > .button.last,
+VBox > .menu-button.last,
+VBox > .toggle-button.last,
+VBox > .split-menu-button.last,
+VBox > .text-field.last,
+VBox > .text-area.last {
+    -fx-border-radius: 0 0 4 4;
+    -fx-background-radius: 0 0 4 4;
+}
+
+VBox > .split-menu-button.last > .label {
+    -fx-border-radius: 0 0 0 4;
+    -fx-background-radius: 0 0 0 3;
+}
+VBox > .split-menu-button.last > .arrow-button {
+    -fx-border-radius: 0 0 4 0;
+    -fx-background-radius: 0 0 3 0;
+}
+
+/*bgcolor setting*/
+
+.button,.menu-button
+{
+    -fx-background-color: black;
+    -fx-border-color: darkgrey;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-insets: 0 0 0 0;
+}
+
+
+/*hover state*/
+.button:hover,.menu-button:hover{
+    -fx-background-color: darkgrey;
+    -fx-border-color: #dadada #dadada #b3b3b3 #dadada;
+}
+/*pressed selected*/
+.button:pressed, .button:selected,
+.menu-button:pressed,.menu-button:selected {
+    -fx-background-color: #e6e6e6;
+    -fx-border-color: #cfcfcf #cfcfcf #b3b3b3 #cfcfcf;
+    -fx-effect: innershadow(gaussian, #b3b3b3, 10, 0, 0, 3);
+
+}
+
+.menu-item {
+    -fx-min-width: 200;
+    -fx-background-color: black;
+}
+
+.menu-item:focused {
+    -fx-background-color: grey;
+}
+
+.menu-item:focused > * {
+    -fx-text-fill: #FFFFFF;
+}
+.menu-item:focused .arrow {
+    -fx-background-color: black;
+}
+.corner {
+    -fx-background-color: black;
+}
+.menu-bar {
+    -fx-background-color: black;
+}
+.menu-bar > .container > .menu-button {
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-border-radius: 0;
+    -fx-background-color: black;
+}
+.menu-bar >.container {
+    -fx-background-color: black;
+}
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: darkgrey;
+}
+.menu{
+    -fx-background-color: black;
+}
+.context-menu {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
+    -fx-background-color: black;
+}
+
+.tooltip {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: black;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: grey;
+    -fx-background-insets: 0;
+    -fx-padding: 0.667em 0.75em 0.667em 0.75em; /* 10px */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0.0, 0, 3);
+    -fx-font-size: 0.85em;
+}
+
+
+
+
+
+/*******************************************************************************
+ *                                                                             *
+ * Slider                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+
+.slider .thumb {
+    -fx-background-color: #dad9da, white, black;
+    -fx-background-insets: 0, 1, 5;
+    -fx-effect: dropshadow(two-pass-box , rgba(0, 0, 0, 0.2), 5, 0.0 , 0, 0);
+}
+.slider .thumb:hover {
+    -fx-effect: dropshadow(two-pass-box , rgba(0, 0, 0, 0.4), 5, 0.0 , 0, 0);
+}
+.slider .track {
+    -fx-background-color: #dad9da, grey, darkgrey;
+    -fx-background-insets: -1, 0, 1;
+    -fx-pref-height: 5;
+}
+.slider:vertical .track {
+    -fx-pref-width: 5;
+}

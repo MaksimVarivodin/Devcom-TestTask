@@ -107,9 +107,7 @@ public class RectanglePiecePuzzle implements PuzzleI {
         for (PuzzlePieceI piece : pieces) {
             String fileName = FileNameGenerator.generateFileName(16);
             fileNames.add(fileName);
-            File imageFile = new File(puzzleDir.getPath() + "/" + fileName + "." + format);
-            ImageIO.write(piece.getImage(), format, imageFile);
-
+            piece.savePuzzlePiece(path, fileName, format);
         }
         String data = Serializer.Serialize(new PuzzleFileLinks(fileNames, columns, rows));
         File puzzleFile = new File(path + "/" + puzzleName +"/" + puzzleName + ".puzzle");
@@ -139,8 +137,7 @@ public class RectanglePiecePuzzle implements PuzzleI {
         PuzzlePieceI[] pieces = new PuzzlePieceI[links.getFileNames().size()];
         int i = 0;
         for (String fileName : links.getFileNames()) {
-            BufferedImage img = ImageIO.read(new File(fileName));
-            pieces[i] = new RectanglePiece(img);
+            pieces[i] = pieces[i].openPuzzlePiece(fileName);
             i++;
         }
         this.columns = links.getCols();

@@ -36,5 +36,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/src/Libraries/opencv/sources/
-/src/Libraries/opencv/
+/src/main/resources/Libraries/opencv/sources/
+/src/main/resources/Libraries/opencv/
