@@ -1,17 +1,17 @@
 package Realizations.PuzzleSolver;
 import Interfaces.PuzzleI;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.CvType;
-import org.opencv.core.Scalar;
+
+
+import java.awt.image.BufferedImage;
+
 public class PuzzleSolver {
-    static{ System.loadLibrary(Core.NATIVE_LIBRARY_NAME);}
+    PuzzleI puzzleI;
 
-    public PuzzleSolver(PuzzleI puzzle, Integer [] path){
-
-
+    public PuzzleSolver(PuzzleI puzzle){
+        this.puzzleI = puzzle;
     }
-    public PuzzleI solve(){
-        return null;
+    public BufferedImage[][] solve(){
+
+        return new BufferedImage[][]{};
     }
 }

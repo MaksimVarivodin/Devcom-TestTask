@@ -14,19 +14,24 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="id_main_pane" prefHeight="425.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="test_task.form.Controller">
+<AnchorPane fx:id="id_main_pane" minHeight="479.0" minWidth="715.0" prefHeight="479.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="test_task.form.Controller">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
                 <Menu fx:id="file_id" mnemonicParsing="false" style="-fx-text-fill: white;" text="Puzzle">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Save as..." />
-                    <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Open Puzzle" />
-                        <MenuItem mnemonicParsing="false" text="Open Image..." />
+                        <MenuItem mnemonicParsing="false" onAction="#openPuzzleFromImage" text="Open Image..." />
+                        <MenuItem mnemonicParsing="false" onAction="#openPuzzle" text="Open Puzzle" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveAs" text="Save as..." />
+                    <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#solve" text="Solve" />
+                        <MenuItem mnemonicParsing="false" onAction="#checkIsSolved" text="Check Is Solved" />
+                        <MenuItem mnemonicParsing="false" onAction="#closePuzzle" text="Close Puzzle" />
+                        <MenuItem mnemonicParsing="false" onAction="#quitApp" text="Quit" />
                   </items>
                 </Menu>
                   <Menu fx:id="themes" mnemonicParsing="false" text="Themes">
@@ -38,14 +43,16 @@
                   </Menu>
                 <Menu mnemonicParsing="false" text="Tips">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Puzzle Piece Movement" />
-                        <MenuItem mnemonicParsing="false" text="Rotation" />
+                        <MenuItem mnemonicParsing="false" onAction="#difficultyTip" text="Encrease Difficulty" />
+                        <MenuItem mnemonicParsing="false" onAction="#currentTip" text="Current Puzzle Piece" />
+                        <MenuItem mnemonicParsing="false" onAction="#movementTip" text="Puzzle Piece Movement" />
+                        <MenuItem mnemonicParsing="false" onAction="#rotationTip" text="Rotation" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="About">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Author" />
-                        <MenuItem mnemonicParsing="false" text="Donate..." />
+                      <MenuItem mnemonicParsing="false" onAction="#author" text="Author" />
+                        <MenuItem mnemonicParsing="false" onAction="#donate" text="Donate..." />
                     </items>
                   </Menu>
               </menus>
@@ -56,7 +63,7 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                         <Button mnemonicParsing="false">
+                         <Button mnemonicParsing="false" onAction="#rotateLeft">
                            <graphic>
                               <ImageView fitHeight="35.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -67,7 +74,7 @@
                            <HBox.margin>
                               <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
                            </HBox.margin></Button>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="54.0">
+                        <Button mnemonicParsing="false" onAction="#rotateRight" prefHeight="40.0" prefWidth="54.0">
                            <graphic>
                               <ImageView fitHeight="35.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -79,34 +86,78 @@
                               <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Label prefHeight="25.0" prefWidth="52.0" text="Columns:" textFill="WHITE">
+                        <Label prefHeight="25.0" prefWidth="52.0" text="Columns:">
                            <HBox.margin>
                               <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Slider blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="4.0" minorTickCount="1" prefHeight="38.0" prefWidth="164.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                        <Slider fx:id="id_columns" blockIncrement="2.0" majorTickUnit="2.0" max="20.0" min="4.0" minorTickCount="1" prefHeight="38.0" prefWidth="164.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="4.0">
                            <HBox.margin>
                               <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
                            </HBox.margin>
                         </Slider>
-                        <Label prefHeight="25.0" prefWidth="43.0" text="Rows:" textFill="WHITE">
+                        <Label prefHeight="25.0" prefWidth="43.0" text="Rows:">
                            <HBox.margin>
                               <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Slider blockIncrement="1.0" majorTickUnit="1.0" max="20.0" min="4.0" minorTickCount="1" prefHeight="38.0" prefWidth="164.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                        <Slider fx:id="id_rows" blockIncrement="1.0" majorTickUnit="2.0" max="20.0" min="4.0" minorTickCount="1" prefHeight="38.0" prefWidth="164.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="4.0">
                            <HBox.margin>
                               <Insets bottom="10.0" left="3.0" right="3.0" top="10.0" />
                            </HBox.margin>
                         </Slider>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label prefHeight="18.0" prefWidth="16.0" text="X:">
+                                       <HBox.margin>
+                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="currentX" text="-1">
+                                       <HBox.margin>
+                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="16.0" text="Y:">
+                                       <HBox.margin>
+                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="currentY" prefHeight="17.0" prefWidth="22.0" text="-1">
+                                       <HBox.margin>
+                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>
             </VBox>
          </bottom>
          <center>
-            <AnchorPane fx:id="id_canvas" prefHeight="337.0" prefWidth="469.0" BorderPane.alignment="CENTER" />
+            <VBox fx:id="id_canvas" alignment="CENTER" minHeight="391.0" minWidth="715.0" spacing="5.0" BorderPane.alignment="CENTER_RIGHT">
+               <padding>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
          </center>
       </BorderPane>
+      <Label fx:id="id_not_picked" alignment="CENTER" contentDisplay="CENTER" layoutX="138.0" layoutY="135.0" prefHeight="184.0" prefWidth="440.0" text="U didn't pick anything yet ;(" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="135.0">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

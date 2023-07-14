@@ -22,12 +22,7 @@ public interface PuzzlePieceI {
      * */
     BufferedImage getImage();
 
-    /**
-     * saves puzzlePiece image
-     * */
-    void savePuzzlePiece(String path, String fileName, String format) throws IOException;
-    /**
-     * opens image and creates PuzzlePiece
-     * */
-    PuzzlePieceI openPuzzlePiece(String path) throws IOException;
+    void setImage(BufferedImage image);
+
+
 }

@@ -1,11 +1,14 @@
 .root {
-    -fx-background-color: black;
-    -fx-body-color : black;
-    -fx-outer-border : grey;
+    -fx-accent: black;
+    -fx-focus-color: -fx-accent;
+    -fx-base: black;
+    -fx-control-inner-background: black;
+    -fx-control-inner-background-alt: -fx-control-inner-background ;
 }
 *{
     -fx-text-fill: WHITE    ;
 }
+
 .button,.menu-button{
     -fx-font-size: 14;
     -fx-background-radius: 4;
@@ -34,10 +37,13 @@
     -fx-font-size: 10;
 }
 
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
 
-
-
-
+.scroll-pane {
+    -fx-background-color: black;
+}
 /*positions*/
 /*first*/
 .button.first, .menu-button.first {
@@ -130,6 +136,18 @@ VBox > .split-menu-button.last > .arrow-button {
 
 .menu-item {
     -fx-min-width: 200;
+    -fx-background-color: black;
+}
+VBox{
+    /*-fx-background-color: black;*/
+}
+HBox{
+    -fx-background: black;
+}
+ScrollPane{
+    -fx-background-color: black;
+}
+AnchorPane{
     -fx-background-color: black;
 }
 

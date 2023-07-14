@@ -4,15 +4,24 @@ import java.io.Serializable;
 import java.util.List;
 
 public class PuzzleFileLinks implements Serializable {
-    List<String> fileNames;
+    List<String> fileNamesUns;
+
+
+
+    List<String> fileNamesSolved;
     int cols, rows;
 
-    public PuzzleFileLinks(List<String> fileNames, int cols, int rows) {
-        this.fileNames = fileNames;
+    public PuzzleFileLinks(List<String> fileNames,List<String> fileNamesSolved, int cols, int rows) {
+        this.fileNamesUns = fileNames;
+        this.fileNamesSolved = fileNamesSolved;
+        this.cols = cols;
+        this.rows = rows;
     }
-
-    public List<String> getFileNames() {
-        return fileNames;
+    public List<String> getFileNamesSolved() {
+        return fileNamesSolved;
+    }
+    public List<String> getFileNamesUns() {
+        return fileNamesUns;
     }
 
     public int getCols() {

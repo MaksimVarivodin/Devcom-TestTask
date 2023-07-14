@@ -1,23 +1,39 @@
 package Services;
 
+import Interfaces.PuzzlePieceI;
+import Realizations.ImageTools.ImageEquality;
+import Realizations.ImageTools.ImageResize;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Button;
 
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
+
+import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
 
 public class ButtonService {
-    static public BufferedImage createButton(BufferedImage image, int width, int height){
-        Image tmp = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
-        Graphics2D g2d = dimg.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
-        g2d.dispose();
-
-        return dimg;
-
+    static public Button createButton(BufferedImage image, int width, int height){
+        BufferedImage temp = ImageResize.resize(image, width, height);
+        Button newButton = new Button("");
+        newButton.setMinSize(width, height);
+        newButton.setMaxSize(width, height);
+        newButton.setPrefSize(width, height);
+        ImageView imageView = new ImageView(SwingFXUtils.toFXImage(temp, null));
+        newButton.setGraphic(imageView);
+        return newButton;
+    }
+    static public Button puzzlePieceToButton(PuzzlePieceI piece, int width, int height){
+        return createButton(piece.getImage(), width, height);
+    }
+    static public Button buttonFromButton(Button button){
+        Button newButton = new Button("");
+        newButton.setMinSize(button.getWidth(), button.getHeight());
+        newButton.setMaxSize(button.getWidth(), button.getHeight());
+        newButton.setPrefSize(button.getWidth(), button.getHeight());
+        newButton.setGraphic(button.getGraphic());
+        return newButton;
     }
 }

@@ -2,6 +2,7 @@ package Realizations.RectanglePuzzles;
 
 import Interfaces.PuzzlePieceI;
 import Realizations.ImageTools.ImageRotate;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -34,9 +35,7 @@ public class RectanglePiece implements PuzzlePieceI {
      */
     @Override
     public void rotateRight() {
-        if (piece.getWidth() == piece.getHeight()) {
-            piece = ImageRotate.rotate(piece, 180);
-        }
+        piece = ImageRotate.rotate(piece, 180);
     }
 
     /**
@@ -47,13 +46,32 @@ public class RectanglePiece implements PuzzlePieceI {
         return piece;
     }
 
+    @Override
+    public void setImage(BufferedImage image) {
+        piece = image;
+    }
+
     /**
      * @param path
+     * @return
      */
-    @Override
-    public void savePuzzlePiece(String path, String fileName, String format) throws IOException {
-        File imageFile = new File(path + "/" + fileName + "." + format);
-        ImageIO.write(piece, format, imageFile);
+
+    public static String savePuzzlePiece(PuzzlePieceI piece, String path, String fileName, String format) {
+        String imagePath = path + "\\" + fileName + format;
+        File imageFile = new File(imagePath);
+        boolean written = false;
+        String ext = FilenameUtils.getExtension(format);
+        try {
+            imageFile.createNewFile();
+            imageFile.setWritable(true);
+            written = ImageIO.write(piece.getImage(), ext, imageFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (!written)
+            return null;
+        return imagePath;
     }
 
     /**
@@ -61,10 +79,19 @@ public class RectanglePiece implements PuzzlePieceI {
      *
      * @param fileName
      */
-    @Override
-    public PuzzlePieceI openPuzzlePiece(String fileName) throws IOException {
+
+    public static PuzzlePieceI openPuzzlePiece(String fileName) throws IOException {
         return new RectanglePiece(ImageIO.read(new File(fileName)));
     }
 
+    public static PuzzlePieceI copy(PuzzlePieceI piece){
+        return new RectanglePiece(piece.getImage());
+    }
+    public static PuzzlePieceI[] copy(PuzzlePieceI[] pieces){
+        PuzzlePieceI[] result = new RectanglePiece[pieces.length];
+        for (int i = 0; i < pieces.length; i++)
+            result[i] = copy(pieces[i]);
+        return result;
+    }
 
 }

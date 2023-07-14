@@ -5,6 +5,7 @@ import Interfaces.PuzzleI;
 import Interfaces.PuzzlePieceI;
 import Realizations.ArrayRandomizer;
 import Realizations.ImageTools.ImageCutter;
+import Realizations.RectanglePuzzles.RectanglePiece;
 import Realizations.RectanglePuzzles.RectanglePiecePuzzle;
 
 import java.awt.image.BufferedImage;
@@ -21,6 +22,11 @@ public class SquarePuzzleGenerator   {
             result[iter]= new SquarePiece(img);
             iter++;
         }
+        return result;
+    }
+    private static PuzzlePieceI[] randomRotate(PuzzlePieceI[] pieces){
+
+        PuzzlePieceI [] result = pieces;
         for (PuzzlePieceI piece:
              result) {
             for (int i = 0; i< Math.random() * 4; i++) {
@@ -29,12 +35,12 @@ public class SquarePuzzleGenerator   {
         }
         return result;
     }
-
     public static PuzzleI generatePuzzle(BufferedImage image, int rows, int columns) throws IOException {
         PuzzlePieceI [] pieces = generatePieceArray(image, rows, columns);
-        ArrayRandomizer randomizer = new ArrayRandomizer(pieces);
-        pieces = randomizer.randomize();
-        PuzzleI puzzle = new RectanglePiecePuzzle(pieces, columns, rows);
+        PuzzlePieceI[]randomRotated = randomRotate(RectanglePiece.copy(pieces));
+        ArrayRandomizer randomizer = new ArrayRandomizer(randomRotated);
+        randomRotated = randomizer.randomize();
+        PuzzleI puzzle = new RectanglePiecePuzzle(randomRotated,pieces, columns, rows);
         return puzzle;
     }
 }

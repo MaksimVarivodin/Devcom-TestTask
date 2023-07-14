@@ -10,6 +10,8 @@ import java.io.IOException;
 public interface PuzzleI {
 
     void setCurrent(int xCoordinate, int yCoordinate);
+    int getCurrentX();
+    int getCurrentY();
     /**
      * Swaps selected puzzle piece with left piece,
      * if selected is not on left edge of a puzzle.
@@ -42,20 +44,6 @@ public interface PuzzleI {
     void moveDown();
 
 
-    /**
-     * Saves puzzle to directory -> path/puzzleName
-     * @param path is the directory where the directory of a puzzle will be created
-     * @param format is the extension of puzzle pieces
-     * @param puzzleName is the name of directory where puzzle will be saved
-     * */
-    void savePuzzle(String format, String path, String puzzleName) throws IOException;
-    /**
-     * Opens puzzle from path -> path/puzzleName
-     * Also tries to get all images signed in .puzzle file
-     * @param path is the dir where are the pictures and .puzzle file
-     * @param puzzleName is the name of the file with the links to images on puzzle(their location on the grid)
-     * */
-    void openPuzzle(String path, String puzzleName) throws IOException, ClassNotFoundException;
 
     /**
      * Rotates selected puzzle piece anticlockwise.
@@ -75,7 +63,14 @@ public interface PuzzleI {
      * Returns array of PuzzlePieces
      * */
     PuzzlePieceI[] getPuzzlePieces();
-
+    /**
+     * Returns array of Solved PuzzlePieces
+     * */
+    PuzzlePieceI[] getSolvedPuzzlePieces();
+    /**
+     * Returns Array of BufferedImages
+     * */
+    BufferedImage[] getImages();
 
     /**
      * @return number of columns
@@ -87,4 +82,7 @@ public interface PuzzleI {
      * @return number of rows
      * */
     int getRows();
+
+
+    boolean isSolved();
 }

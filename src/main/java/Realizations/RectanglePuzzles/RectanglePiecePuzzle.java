@@ -2,31 +2,23 @@ package Realizations.RectanglePuzzles;
 
 import Interfaces.PuzzleI;
 import Interfaces.PuzzlePieceI;
-import Realizations.FileNameGenerator;
-import Realizations.PuzzleFileLinks;
-import Realizations.Serializer;
-import org.apache.commons.io.FilenameUtils;
+import Realizations.ImageTools.ImageEquality;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RectanglePiecePuzzle implements PuzzleI {
-    PuzzlePieceI[] pieces;
+    PuzzlePieceI[] unsolvedPieces;
+    PuzzlePieceI[] solvedPieces;
     int columns;
     int rows;
 
     int currentPieceX;
     int currentPieceY;
 
-    public RectanglePiecePuzzle(PuzzlePieceI[] pieces, int cols, int rows) {
-        this.pieces = pieces;
+
+    public RectanglePiecePuzzle(PuzzlePieceI[] pieces,PuzzlePieceI[] solvedPieces, int cols, int rows) {
+        this.unsolvedPieces = pieces;
+        this.solvedPieces = solvedPieces;
         this.columns = cols;
         this.rows = rows;
         this.currentPieceX = 0;
@@ -36,6 +28,27 @@ public class RectanglePiecePuzzle implements PuzzleI {
         this.currentPieceX = currentPieceX;
         this.currentPieceY = currentPieceY;
     }
+
+    public PuzzlePieceI[] getSolvedPieces() {
+        return solvedPieces;
+    }
+    public boolean isSolved(){
+        for (int i = 0; i < solvedPieces.length; i++) {
+            if(!ImageEquality.equal(unsolvedPieces[i].getImage(),solvedPieces[i].getImage()))
+                return false;
+        }
+        return true;
+    }
+    @Override
+    public int getCurrentX() {
+        return currentPieceX;
+    }
+
+    @Override
+    public int getCurrentY() {
+        return currentPieceY;
+    }
+
     /**
      * Swaps selected puzzle piece with left piece,
      * if selected is not on left edge of a puzzle.
@@ -44,9 +57,10 @@ public class RectanglePiecePuzzle implements PuzzleI {
     @Override
     public void moveLeft() {
         if (currentPieceX >= 1 && currentPieceX < columns && currentPieceY >= 0 && currentPieceY < rows){
-            PuzzlePieceI buffer  = new RectanglePiece(pieces[currentPieceY * columns + currentPieceX - 1]);
-            pieces[currentPieceY * columns + currentPieceX - 1] = pieces[currentPieceY * columns + currentPieceX];
-            pieces[currentPieceY * columns + currentPieceX] = buffer;
+            PuzzlePieceI buffer  = new RectanglePiece(unsolvedPieces[currentPieceY * columns + currentPieceX - 1]);
+            unsolvedPieces[currentPieceY * columns + currentPieceX - 1] = unsolvedPieces[currentPieceY * columns + currentPieceX];
+            unsolvedPieces[currentPieceY * columns + currentPieceX] = buffer;
+
         }
     }
 
@@ -58,9 +72,9 @@ public class RectanglePiecePuzzle implements PuzzleI {
     @Override
     public void moveRight() {
         if (currentPieceX >= 0 && currentPieceX < columns -1 && currentPieceY >= 0 && currentPieceY < rows){
-            PuzzlePieceI buffer  = pieces[currentPieceY * columns + currentPieceX + 1];
-            pieces[currentPieceY * columns + currentPieceX + 1] = pieces[currentPieceY * columns + currentPieceX];
-            pieces[currentPieceY * columns + currentPieceX] = buffer;
+            PuzzlePieceI buffer  = unsolvedPieces[currentPieceY * columns + currentPieceX + 1];
+            unsolvedPieces[currentPieceY * columns + currentPieceX + 1] = unsolvedPieces[currentPieceY * columns + currentPieceX];
+            unsolvedPieces[currentPieceY * columns + currentPieceX] = buffer;
         }
     }
 
@@ -72,9 +86,9 @@ public class RectanglePiecePuzzle implements PuzzleI {
     @Override
     public void moveUp() {
         if (currentPieceX >= 0 && currentPieceX < columns && currentPieceY >= 1 && currentPieceY < rows){
-            PuzzlePieceI buffer  = pieces[(currentPieceY -1) * columns + currentPieceX];
-            pieces[(currentPieceY - 1) * columns + currentPieceX] = pieces[currentPieceY * columns + currentPieceX];
-            pieces[currentPieceY * columns + currentPieceX] = buffer;
+            PuzzlePieceI buffer  = unsolvedPieces[(currentPieceY -1) * columns + currentPieceX];
+            unsolvedPieces[(currentPieceY - 1) * columns + currentPieceX] = unsolvedPieces[currentPieceY * columns + currentPieceX];
+            unsolvedPieces[currentPieceY * columns + currentPieceX] = buffer;
         }
     }
 
@@ -86,64 +100,13 @@ public class RectanglePiecePuzzle implements PuzzleI {
     @Override
     public void moveDown() {
         if (currentPieceX >= 0 && currentPieceX < columns && currentPieceY >= 0 && currentPieceY < rows -1){
-            PuzzlePieceI buffer  = pieces[(currentPieceY +1) * columns + currentPieceX];
-            pieces[(currentPieceY + 1) * columns + currentPieceX] = pieces[currentPieceY * columns + currentPieceX];
-            pieces[currentPieceY * columns + currentPieceX] = buffer;
+            PuzzlePieceI buffer  = unsolvedPieces[(currentPieceY +1) * columns + currentPieceX];
+            unsolvedPieces[(currentPieceY + 1) * columns + currentPieceX] = unsolvedPieces[currentPieceY * columns + currentPieceX];
+            unsolvedPieces[currentPieceY * columns + currentPieceX] = buffer;
         }
     }
 
-    /**
-     * Saves puzzle to directory -> path/puzzleName
-     *
-     * @param format     is the extension of puzzle pieces
-     * @param path       is the directory where the directory of a puzzle will be created
-     * @param puzzleName is the name of directory where puzzle will be saved
-     */
-    @Override
-    public void savePuzzle(String format, String path, String puzzleName) throws IOException {
-        File puzzleDir = new File(path +"/"+  puzzleName + "/images" );
-        puzzleDir.mkdirs();
-        List<String> fileNames = new ArrayList<>();
-        for (PuzzlePieceI piece : pieces) {
-            String fileName = FileNameGenerator.generateFileName(16);
-            fileNames.add(fileName);
-            piece.savePuzzlePiece(path, fileName, format);
-        }
-        String data = Serializer.Serialize(new PuzzleFileLinks(fileNames, columns, rows));
-        File puzzleFile = new File(path + "/" + puzzleName +"/" + puzzleName + ".puzzle");
-        try(PrintWriter writer = new PrintWriter(puzzleFile)){
-            writer.println(data);
-        }
-    }
 
-    /**
-     * Opens puzzle from path -> path/puzzleName
-     * Also tries to get all images signed in .puzzle file
-     *
-     * @param path       is the dir where are the pictures and .puzzle file
-     * @param puzzleName is the name of the file with the links to images on puzzle(their location on the grid), also it must have extension ".puzzle"
-     */
-    @Override
-    public void openPuzzle(String path, String puzzleName) throws IOException, ClassNotFoundException {
-        String data = new String(Files.readAllBytes(Paths.get(path + "/"+ puzzleName)));
-
-        if (!FilenameUtils.getExtension(puzzleName).equals("puzzle")){
-            throw new IOException("Not a .puzzle file");
-        }
-        PuzzleFileLinks links = Serializer.Deserialize(data);
-        if (links.getFileNames().size() != links.getCols() * links.getRows()) {
-            throw new IOException("Wrong puzzle file");
-        }
-        PuzzlePieceI[] pieces = new PuzzlePieceI[links.getFileNames().size()];
-        int i = 0;
-        for (String fileName : links.getFileNames()) {
-            pieces[i] = pieces[i].openPuzzlePiece(fileName);
-            i++;
-        }
-        this.columns = links.getCols();
-        this.rows = links.getRows();
-        this.pieces = pieces;
-    }
 
     /**
      * Rotates selected puzzle piece anticlockwise.
@@ -151,7 +114,7 @@ public class RectanglePiecePuzzle implements PuzzleI {
      */
     @Override
     public void rotateLeft() {
-        pieces[currentPieceY * columns + currentPieceX].rotateLeft();
+        unsolvedPieces[currentPieceY * columns + currentPieceX].rotateLeft();
     }
 
     /**
@@ -160,7 +123,7 @@ public class RectanglePiecePuzzle implements PuzzleI {
      */
     @Override
     public void rotateRight() {
-        pieces[currentPieceY * columns + currentPieceX].rotateRight();
+        unsolvedPieces[currentPieceY * columns + currentPieceX].rotateRight();
     }
 
     /**
@@ -168,7 +131,26 @@ public class RectanglePiecePuzzle implements PuzzleI {
      */
     @Override
     public PuzzlePieceI[] getPuzzlePieces() {
-        return this.pieces;
+        return this.unsolvedPieces;
+    }
+
+    /**
+     * Returns array of Solved PuzzlePieces
+     */
+    @Override
+    public PuzzlePieceI[] getSolvedPuzzlePieces() {
+        return this.solvedPieces;
+    }
+
+    /**
+     * Returns Array of BufferedImages
+     */
+    @Override
+    public BufferedImage[] getImages() {
+        BufferedImage[] images = new BufferedImage[this.unsolvedPieces.length];
+        for (int i = 0; i < unsolvedPieces.length; i++)
+            images[i] = unsolvedPieces[i].getImage();
+        return images;
     }
 
 

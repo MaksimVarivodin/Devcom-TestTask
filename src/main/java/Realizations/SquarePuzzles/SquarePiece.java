@@ -6,7 +6,7 @@ import Realizations.ImageTools.ImageRotate;
 
 import java.awt.image.BufferedImage;
 
-public class SquarePiece extends RectanglePiece implements PuzzlePieceI  {
+public class SquarePiece extends RectanglePiece implements PuzzlePieceI {
 
     public SquarePiece(BufferedImage image) {
         super(image);
@@ -17,9 +17,8 @@ public class SquarePiece extends RectanglePiece implements PuzzlePieceI  {
      */
     @Override
     public void rotateLeft() {
-        if (piece.getWidth() == piece.getHeight()){
-            piece = ImageRotate.rotate(piece, -90);
-        }
+        piece = ImageRotate.rotate(piece, -90);
+
     }
 
     /**
@@ -27,9 +26,13 @@ public class SquarePiece extends RectanglePiece implements PuzzlePieceI  {
      */
     @Override
     public void rotateRight() {
-        if (piece.getWidth() == piece.getHeight()){
-            piece = ImageRotate.rotate(piece, 90);
-        }
+        piece = ImageRotate.rotate(piece, 90);
+
+    }
+
+    @Override
+    public void setImage(BufferedImage image) {
+        piece = image;
     }
 
 

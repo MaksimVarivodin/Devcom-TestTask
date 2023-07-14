@@ -4,17 +4,22 @@ import Constants.Theme;
 import Interfaces.PuzzleI;
 import Realizations.SquarePuzzles.SquarePuzzleGenerator;
 import Services.ButtonService;
+import Services.PuzzleServiceGenerator;
+import Services.ThemeService;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,31 +30,47 @@ import java.nio.file.Paths;
 
 public class App extends Application {
 
-
-    public static Button button;
     @Override
     public void start(Stage stage) throws IOException {
-
-        Path path = Paths.get("C:\\Users\\ПК\\Pictures\\Fractals\\тт.png");
-        InputStream stream = Files.newInputStream(path);
-        BufferedImage img = ImageIO.read(stream);
-        BufferedImage image = ButtonService.createButton(img, 100, 100);
-        button = new Button();
-        button.contentDisplayProperty().setValue(ContentDisplay.TOP);
-        ImageView view = new ImageView( javafx.embed.swing.SwingFXUtils.toFXImage(image, null));
-        button.setGraphic(view);
-
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("puzzle.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
 
-        URL resource = this.getClass().getClassLoader().getResource(Theme.LIGHTTHEME.toString());
-        if (resource!= null){
-            scene.getStylesheets().clear();
-            scene.getStylesheets().add(resource.toExternalForm());
-        }
+        Scene scene = new Scene(fxmlLoader.load());
+        Controller fxmlController = ((Controller) fxmlLoader.getController());
+
+        fxmlController.id_canvas.widthProperty().addListener(fxmlController.getResizeEventListener());
+        fxmlController.id_canvas.heightProperty().addListener(fxmlController.getResizeEventListener());
+        ThemeService.applyDefaultTheme(scene, Controller.class);
+        stage.setTitle("Puzzle");
+
+        // setting movement Controls here:
+
+        scene.setOnKeyReleased(e->{
+            switch (e.getCode()){
+                case A:
+                    fxmlController.moveCurrentButtonLeft();
+                    break;
+                case D:
+                    fxmlController.moveCurrentButtonRight();
+                    break;
+                case W:
+                    fxmlController.moveCurrentButtonUp();
+                    break;
+                case S:
+                    fxmlController.moveCurrentButtonDown();
+                    break;
+            }
+        });
 
         stage.setScene(scene);
+
+
+
+
         stage.show();
+        double heightDifference = stage.getHeight() - fxmlController.id_main_pane.getMinHeight();
+        stage.setMinHeight(fxmlController.id_main_pane.getMinHeight()+ heightDifference);
+        stage.setMinWidth(fxmlController.id_main_pane.getMinWidth());
+
     }
 
     public static void main(String[] args) throws IOException {
